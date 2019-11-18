@@ -14,36 +14,19 @@ import java.util.Objects;
 
 public class Main extends Application {
 
+    public static Stage stage2;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        stage2 = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("loadingscreen.fxml"));
 
-        primaryStage.setScene(new Scene(root, 550, 700));
-        primaryStage.show();
+        stage2.setScene(new Scene(root, 550, 700));
+        stage2.show();
+        Thread t = new Thread(new Test());
+        t.start();
 
 
-        Socket socket = new Socket("localhost", 5989);
-
-        ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
-        ObjectInputStream serverReader = new ObjectInputStream(socket.getInputStream());
-
-        try {
-
-            String fromServer;
-            fromServer = (String) serverReader.readObject();
-            System.out.println(fromServer);
-            if (fromServer.equalsIgnoreCase("connected")) {
-                System.out.println("Connection completed");
-                Parent connec = FXMLLoader.load(getClass().getResource("connectedscreen.fxml"));
-                primaryStage.setScene(new Scene(connec, 550, 700));
-                primaryStage.show();
-            }
-
-
-        }catch (Exception e){
-            System.out.println("Oh no:(");
-            e.printStackTrace();
-        }
 
 
     }
